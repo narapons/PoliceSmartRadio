@@ -36,7 +36,7 @@ namespace PoliceSmartRadio.Actions
         private static void displayRecords(Persona pers)
         {
             
-            string msg = "Record for: ~b~" + pers.FullName + "~n~~y~" + pers.Gender.ToString() + "~s~, Born: ~y~" + pers.Birthday.ToShortDateString() + "~n~~s~- License is " + licenceStateString(pers.ELicenseState) + ".~n~~s~- " + wantedString(pers.Wanted) + ".";
+            string msg = "氏名: ~b~" + pers.FullName + "~n~~y~" + pers.Gender.ToString() + "~s~, 生年月日: ~y~" + pers.Birthday.ToShortDateString() + "~n~~s~- ライセンス " + licenceStateString(pers.ELicenseState);
             GameFiber.Wait(4000);
 
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~DISPATCH", pers.FullName, msg);
@@ -46,19 +46,19 @@ namespace PoliceSmartRadio.Actions
         {
             if (state == ELicenseState.Valid)
             {
-                return "~s~valid";
+                return "~s~有効";
             }
             else if (state == ELicenseState.Suspended)
             {
-                return "~r~suspended";
+                return "~r~拒否";
             }
             else if (state == ELicenseState.Expired)
             {
-                return "~o~expired";
+                return "~o~期限切れ";
             }
             else
             {
-                return "~s~no records";
+                return "~s~なし";
             }
         }
         private static string wantedString(bool wanted)

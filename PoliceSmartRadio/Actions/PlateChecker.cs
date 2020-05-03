@@ -103,23 +103,23 @@ namespace PoliceSmartRadio.Actions
                 {
                     if (Traffic_Policer.API.Functions.GetVehicleRegistrationStatus(vehicleToCheck) == Traffic_Policer.EVehicleDetailsStatus.Expired)
                     {
-                        Flags += "EXPIRED REGISTRATION ";
+                        Flags += "期限切れの登録 ";
                         AudioFlags.Add("TrafficViolation");
                     }
                     else if (Traffic_Policer.API.Functions.GetVehicleRegistrationStatus(vehicleToCheck) == Traffic_Policer.EVehicleDetailsStatus.None)
                     {
-                        Flags += "NO REGISTRATION ";
+                        Flags += "登録なし ";
                         AudioFlags.Add("TrafficViolation");
                     }
 
                     if (Traffic_Policer.API.Functions.GetVehicleInsuranceStatus(vehicleToCheck) == Traffic_Policer.EVehicleDetailsStatus.Expired)
                     {
-                        Flags += "EXPIRED INSURANCE ";
+                        Flags += "期限切れの保険 ";
                         AudioFlags.Add("TrafficViolation");
                     }
                     else if (Traffic_Policer.API.Functions.GetVehicleInsuranceStatus(vehicleToCheck) == Traffic_Policer.EVehicleDetailsStatus.None)
                     {
-                        Flags += "NO INSURANCE ";
+                        Flags += "保険なし ";
                         AudioFlags.Add("TrafficViolation");
                     }
 
@@ -128,40 +128,40 @@ namespace PoliceSmartRadio.Actions
                         AudioFlags.Add("Warrant");
                         if (rnd.Next(100) < 75)
                         {
-                            Flags += "FELONY WARRANT FOR REGISTERED OWNER ";
+                            Flags += "所有者に重罪歴 ";
 
                         }
                         else
                         {
-                            Flags += "BENCH WARRANT FOR REGISTERED OWNER ";
+                            Flags += "所有者に逮捕状 ";
                         }
                     }
 
                     if (DriverPersona.ELicenseState == ELicenseState.Suspended)
                     {
-                        Flags += "OWNER'S LICENCE SUSPENDED ";
+                        Flags += "所有者のライセンス停止 ";
                         AudioFlags.Add("TrafficFelony");
                     }
                     else if (DriverPersona.ELicenseState == ELicenseState.Expired)
                     {
-                        Flags += "OWNER'S LICENCE EXPIRED ";
+                        Flags += "所有者のライセンス切れ ";
                         AudioFlags.Add("TrafficViolation");
                     }
                     else if (DriverPersona.ELicenseState == ELicenseState.None)
                     {
-                        Flags += "OWNER'S LICENCE INVALID ";
+                        Flags += "所有者のライセンス無効 ";
                         AudioFlags.Add("TrafficViolation");
                     }
 
                     if (DriverPersona.Birthday.Date == DateTime.Now.Date)
                     {
-                        Flags += "~g~OWNER'S BIRTHDAY ";
+                        Flags += "~g~所有者が誕生日 ";
                     }
 
                     if (string.IsNullOrWhiteSpace(Flags))
                     {
                         AudioFlags.Add("No1099");
-                        this.Flags += "~g~NONE";
+                        this.Flags += "~g~なし";
                     }
                     else
                     {
@@ -260,6 +260,7 @@ namespace PoliceSmartRadio.Actions
                         {
                             Game.DisplayNotification("~b~Dispatch: ~s~" + PoliceSmartRadio.PlayerName + ", plate check: ~n~~b~Plate: " + checker.LicencePlate + "~n~Model: " + checker.vehModel
                                 + "~n~Reg. Year: " + checker.vehicleYear + "~n~Registered Owner: ~y~" + checker.DriverPersona.FullName + "~b~~n~Citations: " + checker.DriverPersona.Citations);
+                            GameFiber.Wait(2000);
                             GameFiber.Wait(2000);
                             Game.DisplayNotification(checker.Flags);
                         }
